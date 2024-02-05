@@ -1,0 +1,57 @@
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+def gcd(x, y):
+    # Function to find the greatest common divisor using Euclidean algorithm
+    while(y):
+        x, y = y, x % y
+    return x
+
+def lcm(x, y):
+    # Function to find the least common multiple
+    return x * y // gcd(x, y)
+
+def getTotalX(a, b):
+    # Find the LCM of all elements in array A
+    lcm_a = a[0]
+    for num in a[1:]:
+        lcm_a = lcm(lcm_a, num)
+    
+    # Find the GCD of all elements in array B
+    gcd_b = b[0]
+    for num in b[1:]:
+        gcd_b = gcd(gcd_b, num)
+    
+    # Count the multiples of LCM_a that evenly divide GCD_b
+    count = 0
+    multiple = lcm_a
+    while multiple <= gcd_b:
+        if gcd_b % multiple == 0:
+            count += 1
+        multiple += lcm_a
+    
+    return count
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    first_multiple_input = input().rstrip().split()
+
+    n = int(first_multiple_input[0])
+
+    m = int(first_multiple_input[1])
+
+    arr = list(map(int, input().rstrip().split()))
+
+    brr = list(map(int, input().rstrip().split()))
+
+    total = getTotalX(arr, brr)
+
+    fptr.write(str(total) + '\n')
+
+    fptr.close()
